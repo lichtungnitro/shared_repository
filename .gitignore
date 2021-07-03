@@ -1,0 +1,16 @@
+# ignore folder
+/twitter_crawler
+/venv
+/.idea
+
+# ignore json
+/*.json
+
+# ignore pkl
+/*.pkl
+
+# ignore log
+/*.loh
+
+# ignore modules
+/.node_modules
