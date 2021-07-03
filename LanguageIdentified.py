@@ -12,7 +12,7 @@ from json import load #Concatenate Built-in Package
 from random import choice #Random List Value Package
 from faker import Faker #Fake Entity Package
 
-#Global Setting
+#Soft Setting
 clean_language = 'ha'
 clean_number = 'ha' 
 target_language_dict = {'fr':['fr'],
@@ -21,13 +21,16 @@ target_language_dict = {'fr':['fr'],
                         'pidgin':['Nigerian Pidgin(pcm)'],
                         'ha':['hua_NG', 'hau_NE', 'Tonga (Zambia) (toi)', 'Somali (som)', 'Soninke (snk)', 'Chamorro (cha)', 'Fijian (fij)', 'Turkish (tur)', 'Lozi (loz)']
                         }
-clean_date = '2021-06-26'
+clean_date = '2021-06-16'
 clean_target = 'novel'
-clean_start_piece = 0
-clean_threshold = 0.5
+clean_start_piece = 37
+clean_threshold = 0.6
 clean_maximum_word_len = 15
 clean_maximum_query_len = 1000
+
+#Hard setting
 clean_minimum_query_len = 2
+clean_proxies = {'http':'127.0.0.1:7890'}
 
 #Model Path
 pretrained_model_path = '//Users//nitrolichtung//Desktop//language_lib//lid.176.bin'
@@ -49,8 +52,8 @@ clean_piece = len(glob('//Users//nitrolichtung//Downloads//Movie//twitter_divide
 
 #Translated Number
 def google_translate_process(translate_text, translate_language):
-    translator = google_translator(url_suffix='cn', timeout=5)
-    translator_result = translator.translate(text=translate_text, lang_tgt=translate_language)
+    translator = google_translator(url_suffix='cn', timeout=5, proxies=clean_proxies)
+    translator_result = translator.translate(text=translate_text, lang_src='en', lang_tgt=translate_language)
     return translator_result
 
 #Concatenate Built-in Dictionary
