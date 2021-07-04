@@ -10,7 +10,7 @@ from os import remove #Removal Package
 #Scrape Setting
 target_language = 'sw' #Choosing from en/pidgin/ha
 scrape_language = 'sw' #Choosing from en/in
-scrape_region = 'mombasa' #Choosing from lagos/london
+scrape_region = 'tanzania' #Choosing from lagos/london
 scrape_mode = 'common' #Choosing from u/s
 scrape_repeat_time = 999999999 #Amount to Scrape
 scrape_pause_time = 1 #Pause for Scraper

@@ -1,6 +1,19 @@
 import codecs
 from os import path, listdir, remove
 
+#Soft Settings
+date = '2021-06-17'
+lang = 'fr'
+mode = 'weather'
+rank = 500
+
+#Hard Settings
+root = '//Users//nitrolichtung//Downloads//Movie//twitter_divided//{}_task_{}_{}//'.format(date, lang, mode)
+temporary =  path.join(root, 'temporary_output.txt')
+statics_top_rank = path.join(root, 'statics_top.txt')
+statics_bot_rank = path.join(root, 'statics_bot.txt')
+statics_weird = path.join(root, 'statics_weird.txt')
+
 #Combine Text Files
 def combine_text(input_path):
     whole_file = [path.join(input_path,file) for file in listdir(input_path)]
@@ -27,49 +40,42 @@ def get_text(input_file):
         text = text.replace(char, '')
     return text
 
-#Global Settings
-date = '2021-06-27'
-lang = 'en'
-mode = 'common'
-rank = 500
-root = '//Users//nitrolichtung//Downloads//Movie//twitter_divided//{}_task_{}_{}//'.format(date, lang, mode)
-temporary =  path.join(root, 'temporary_output.txt')
-statics_top_rank = path.join(root, 'statics_top.txt')
-statics_bot_rank = path.join(root, 'statics_bot.txt')
-dictionary = ''
-
 #Get Word Frequency
+weird_word_list = set()
 combine_text(root)
 raw_text = get_text(temporary)
 words = raw_text.split()
 counts = {}
 for word in words:
-    counts[word] = counts.get(word,0) + 1
+    counts[word] = counts.get(word, 0) + 1
+    if counts[word] < 4 and len(word) > 14:
+        weird_word_list.add(word)
 
+#Confirm Items Amount
 items = list(counts.items())
 items.sort(key=lambda x:x[1], reverse=True)
-items_range = len(items)-1
-
-if rank < items_range+1:
+items_range = len(items)
+if rank < items_range:
     pass
 else:
     rank = items_range
 
 #Write Top Rank
-with codecs.open(statics_top_rank, mode='a', encoding='utf-8') as s:
-    s.write('kwd.      top-rank\n------------------\n')
-for counter in range(rank):
+for counter in range(rank-1):
     word_t, count_t = items[counter]
-    with codecs.open(statics_top_rank, mode='a', encoding='utf-8') as s:
-        s.write("{0:<10}{1:>5}".format(word_t, count_t) + '\n')
+    with codecs.open(statics_top_rank, mode='a', encoding='utf-8') as top_rank:
+        top_rank.write('{0:<10}{1:>5}'.format(word_t, count_t) + '\n')
         
 #Write Bottom Rank
-with codecs.open(statics_bot_rank, mode='a', encoding='utf-8') as s:
-    s.write('kwd.      bot-rank\n------------------\n')
-for counter in range(rank):
-    word_b, count_b = items[items_range-counter]
-    with codecs.open(statics_bot_rank, mode='a', encoding='utf-8') as s:
-        s.write("{0:<10}{1:>5}".format(word_b, count_b) + '\n')
+for counter in range(rank-1):
+    word_b, count_b = items[items_range-counter-1]
+    with codecs.open(statics_bot_rank, mode='a', encoding='utf-8') as bot_rank:
+        bot_rank.write('{0:<10}{1:>5}'.format(word_b, count_b) + '\n')
+
+#Write Wired Words
+for weird_word in weird_word_list:
+    with codecs.open(statics_weird, mode='a', encoding='utf-8') as weird_file:
+        weird_file.write(weird_word + '\n')
 
 #Remove Temporary File
 remove(temporary)
