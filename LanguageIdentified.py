@@ -23,7 +23,7 @@ target_language_dict = {'fr':['fr'],
                         }
 clean_date = '2021-06-16'
 clean_target = 'novel'
-clean_start_piece = 37
+clean_start_piece = 52
 clean_threshold = 0.6
 clean_maximum_word_len = 15
 clean_maximum_query_len = 1000
@@ -295,7 +295,7 @@ for piece_count in tqdm(range(clean_start_piece,clean_piece)):
     split_sentences = []
 
     #Load and Clean Lines
-    with codecs.open(generate_path(mode='clean', counter=piece_count), mode='r', encoding='utf-8') as lines:
+    with codecs.open(generate_path(mode='clean', counter=piece_count), mode='r', encoding='utf-8', errors='ignore') as lines:
         for line in lines:
             line = line.replace('[HashtagTopic]', '') #Clean Hashtag
             line = str(line).replace('[AtUserName]', ' <NameCollection> ') #Replace Name
