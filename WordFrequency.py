@@ -2,9 +2,9 @@ import codecs
 from os import path, listdir, remove
 
 #Soft Settings
-date = '2021-06-17'
-lang = 'fr'
-mode = 'weather'
+date = '2021-06-27'
+lang = 'en'
+mode = 'common'
 rank = 500
 
 #Hard Settings
@@ -46,8 +46,12 @@ combine_text(root)
 raw_text = get_text(temporary)
 words = raw_text.split()
 counts = {}
+
+#Statics for Weird
 for word in words:
     counts[word] = counts.get(word, 0) + 1
+    for char in "'‘’":
+        word = word.replace(char, '')
     if counts[word] < 4 and len(word) > 14:
         weird_word_list.add(word)
 
